@@ -1,0 +1,31 @@
+[project]
+name = "ai-python2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Ritom Paul", email = "rittmann007@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.141.1",
+    "langchain>=1.4.0",
+    "langchain-community>=0.4.2",
+    "langchain-core>=1.6.1",
+    "langchain-google-genai>=4.4.0",
+    "langchain-huggingface>=1.2.2",
+    "langchain-text-splitters>=1.1.2",
+    "onnxruntime>=1.29.0",
+    "pymongo>=4.18.0",
+    "python-dotenv>=1.2.3",
+    "sentence-transformers>=6.0.1",
+    "tavily-python>=0.8.1",
+    "uvicorn>=0.52.4",
+]
+
+[project.scripts]
+ai-python2 = "ai_python2:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
