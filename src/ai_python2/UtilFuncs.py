@@ -1,3 +1,4 @@
+print("UtilFuncs: starting import", flush=True)
 import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -5,6 +6,7 @@ from bson import ObjectId
 
 hf_token = os.environ.get("HF_TOKEN")
 
+print("UtilFuncs: loading embedding model...", flush=True)
 # Initialize the embedding model (you can choose any supported model)
 embedding_model = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2",
