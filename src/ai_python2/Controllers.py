@@ -23,9 +23,9 @@ async def ingestController(payload:InterviewRequest,request:Request):
       raise HTTPException(status_code=400, detail="Invalid interviewID")
 
     # chunk the input
-    resumeChunk = chunk_text(payload.resumeText, chunk_size=200, chunk_overlap=30)
-    jdChunk = chunk_text(payload.jobDescription, chunk_size=200, chunk_overlap=30)
-    sdChunk = chunk_text(payload.selfDescription, chunk_size=200, chunk_overlap=30)
+    resumeChunk = chunk_text(payload.resumeText, chunk_size=400, chunk_overlap=50)
+    jdChunk = chunk_text(payload.jobDescription, chunk_size=400, chunk_overlap=50)
+    sdChunk = chunk_text(payload.selfDescription, chunk_size=400, chunk_overlap=50)
 
     # get the embedding and create the doc to insert
     resumeDocs = [
