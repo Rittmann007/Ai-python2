@@ -31,3 +31,7 @@ But within that one interview's chunks, the top-k similarity search freely mixes
   For a query like "where do I work," a JD line like "Frontend Developer... 
   Remote/Hybrid" can easily out-rank the actual resume's employer line, 
   because nothing tells the vector search "only look at resume chunks."
+
+ℹ️here we were using a huggingFace model for embedding locally,
+but its too heavy for a free render deployment,
+so we switched to api based embedding  

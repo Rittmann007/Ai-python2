@@ -1,17 +1,12 @@
 print("UtilFuncs: starting import", flush=True)
 import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from bson import ObjectId
 
 hf_token = os.environ.get("HF_TOKEN")
 
-print("UtilFuncs: loading embedding model...", flush=True)
-# Initialize the embedding model (you can choose any supported model)
-embedding_model = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    model_kwargs={"token": hf_token}
-)
+embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 def chunk_text(input_text: str, chunk_size: int = 500, chunk_overlap: int = 50):
     """
