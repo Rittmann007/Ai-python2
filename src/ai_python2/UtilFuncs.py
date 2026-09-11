@@ -50,7 +50,7 @@ def get_chunk_embedding(chunk: str):
 # print("Embedding length:", len(vector))
 # print("First 10 values:", vector[:10])
 
-def get_query_results(query: str,collection,interviewID):
+def get_query_results(query: str,collection,interviewID, source_type: str):
     """
         give relevent chunks related to query filtered by interviewID
     
@@ -58,11 +58,16 @@ def get_query_results(query: str,collection,interviewID):
             query (str): The query of the user.
             collection (str): the collection var of the db collection querying on
             interviewID (str): id of the interview report
+            source_type (str): type of the source suitable for the result
     
         Returns:
             List[{"text": val}]: List of dicts.
     """
     query_embedding = get_chunk_embedding(query)
+    filter_doc = {"interviewID": ObjectId(interviewID)}
+    if source_type:
+        filter_doc["sourceType"] = source_type
+
     pipeline = [
         {
             "$vectorSearch": {
@@ -71,16 +76,9 @@ def get_query_results(query: str,collection,interviewID):
                 "path": "embedding",
                 "numCandidates": 384,
                 "limit": 5,
-                "filter": {
-                    "interviewID": ObjectId(interviewID)
-                }
+                "filter": filter_doc,
             }
         },
-        {
-            "$project": {
-                "_id": 0,
-                "text": 1
-            }
-        }
+        {"$project": {"_id": 0, "text": 1, "sourceType": 1}},
     ]
     return list(collection.aggregate(pipeline))
