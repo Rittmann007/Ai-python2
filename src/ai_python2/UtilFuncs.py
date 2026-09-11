@@ -4,9 +4,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from bson import ObjectId
 
-hf_token = os.environ.get("HF_TOKEN")
-
-embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+embedding_model = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
 def chunk_text(input_text: str, chunk_size: int = 500, chunk_overlap: int = 50):
     """
