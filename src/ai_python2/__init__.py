@@ -39,3 +39,8 @@ app.post("/ingest")(ingestController)
 # chat
 app.post("/chat")(chatController)
 
+# health
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
