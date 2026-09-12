@@ -1,10 +1,10 @@
-import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from bson import ObjectId
 
 embedding_model = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
+# util function
 def chunk_text(input_text: str, chunk_size: int = 500, chunk_overlap: int = 50):
     """
     Splits a string into chunks using LangChain's RecursiveCharacterTextSplitter.
@@ -25,7 +25,7 @@ def chunk_text(input_text: str, chunk_size: int = 500, chunk_overlap: int = 50):
     chunks = splitter.split_text(input_text)
     return chunks
 
-
+# util function
 def get_chunk_embedding(chunk: str):
     """
     Takes a single text chunk and returns its embedding vector.
@@ -44,6 +44,7 @@ def get_chunk_embedding(chunk: str):
 # print("Embedding length:", len(vector))
 # print("First 10 values:", vector[:10])
 
+# util function
 def get_query_results(query: str,collection,interviewID, source_type: str):
     """
         give relevent chunks related to query filtered by interviewID
@@ -76,3 +77,4 @@ def get_query_results(query: str,collection,interviewID, source_type: str):
         {"$project": {"_id": 0, "text": 1, "sourceType": 1}},
     ]
     return list(collection.aggregate(pipeline))
+

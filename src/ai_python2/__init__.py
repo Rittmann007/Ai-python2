@@ -1,8 +1,9 @@
 from dotenv import load_dotenv
 load_dotenv()
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI,Depends
 from ai_python2.Controllers import ingestController,chatController
+from ai_python2.Auth import verify_internal_key
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 import os
@@ -34,13 +35,13 @@ async def root():
     return {"message": "Hello World"}
 
 # ingest
-app.post("/ingest")(ingestController)
+app.post("/ingest", dependencies=[Depends(verify_internal_key)])(ingestController)
 
 # chat
-app.post("/chat")(chatController)
+app.post("/chat", dependencies=[Depends(verify_internal_key)])(chatController)
 
 # health
-@app.get("/health")
+@app.get("/health") # for render health check
 def health():
     return {"status": "ok"}
 
