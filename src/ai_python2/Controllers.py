@@ -76,6 +76,10 @@ async def chatController(payload: ChatRequest, request: Request):
 
     interview_id = payload.interviewID  # closure captures these, LLM never sees them
 
+    # @tool is a LangChain decorator that turns a plain Python function into a Tool object the agent can call.
+    #  It uses the function's docstring as the tool description the LLM sees
+    #  (this is how the LLM decides when to use it — the docstring is effectively part of the prompt),
+    #  and its type hints (query: str) to build the tool's input schema.
     @tool
     def search_resume(query: str) -> str:
         """Search only the candidate's resume for relevant information."""
@@ -113,6 +117,14 @@ async def chatController(payload: ChatRequest, request: Request):
     4. Keep answers grounded strictly in what the tools return. Do not blend information from one source into another (e.g. don't attribute job description details to the candidate's own experience).
     """
 
+   # This builds a tool-calling agent loop (likely LangGraph under the hood, given checkpointer — that's a LangGraph concept). Conceptually the loop is:
+   #LLM receives system prompt + conversation + user message.
+   #LLM decides: answer directly, or call one/more tools.
+   #If it calls tools, 
+   #The tool actually runs (get_query_results executes), returns text.
+   #That returned text is wrapped as a ToolMessage and appended to the message list — this is now "context," but it lives inside the message history, not a separate template variable.
+   #LLM sees tool results(system prompt + history + question + tool call + tool result). and decides again: answer, or call more tools.
+   #Repeats until the LLM produces a final answer with no more tool calls.
     agent = create_agent(
         llm, 
         tools=tools, 
